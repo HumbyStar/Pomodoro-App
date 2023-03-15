@@ -19,15 +19,6 @@ class PomodoroScreen: UIView{
         return view
     }()
     
-    lazy var backgroundTopView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 10
-        view.backgroundColor = .red
-        view.alpha = 0.6
-        return view
-    }()
-        
     lazy var ivTomatto: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,12 +41,10 @@ class PomodoroScreen: UIView{
     lazy var btInterval: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 20
-        button.backgroundColor = .red
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.alpha = 0.2
         button.titleLabel?.font = UIFont(name: "Chalkboard SE Bold", size: 17)
         button.setTitle("Intervalo", for: .normal)
-        button.isHidden = true
         button.addTarget(self, action: #selector(btClickToInterval), for: .touchUpInside)
         return button
     }()
@@ -65,7 +54,7 @@ class PomodoroScreen: UIView{
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.font = UIFont(name: "Chalkboard SE Bold", size: 50)
-        label.text = "25:00"
+        label.text = "00:00"
         label.textAlignment = .center
         return label
     }()
@@ -75,14 +64,15 @@ class PomodoroScreen: UIView{
         callViewcodeMethods()
     }
     
-    public func delegate(delegate: StopWatchDelegate) {
-        self.delegate = delegate
-    }
-     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-     
+    
+    
+    public func delegate(delegate: StopWatchDelegate) {
+        self.delegate = delegate
+    }
+    
     @objc func btClickToStart() {
         self.delegate?.letStartTimer()
     }
@@ -95,25 +85,22 @@ class PomodoroScreen: UIView{
 
 extension PomodoroScreen: Viewcode {
     func addSubview() {
-        [topView, backgroundTopView ,ivTomatto, lbStopwatch, btStart].forEach{
+        [topView,ivTomatto, lbStopwatch, btStart, btInterval].forEach{
             self.addSubview($0)
         }
     }
     
     func setupConstraints() {
+        
         NSLayoutConstraint.activate([
             
             self.topView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.topView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            self.topView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
+            self.topView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            self.topView.widthAnchor.constraint(equalToConstant: 300),
             self.topView.heightAnchor.constraint(equalToConstant: 40),
             
-            self.backgroundTopView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.backgroundTopView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            self.backgroundTopView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            self.backgroundTopView.heightAnchor.constraint(equalToConstant: 40),
             
-            self.ivTomatto.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -30),
+            self.ivTomatto.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -45),
             self.ivTomatto.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.ivTomatto.widthAnchor.constraint(equalToConstant: 250),
             self.ivTomatto.heightAnchor.constraint(equalToConstant: 250),
@@ -127,6 +114,11 @@ extension PomodoroScreen: Viewcode {
             self.btStart.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
             self.btStart.widthAnchor.constraint(equalToConstant: 100),
             self.btStart.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.btInterval.topAnchor.constraint(equalTo: self.btStart.bottomAnchor, constant: 10),
+            self.btInterval.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
+            self.btInterval.widthAnchor.constraint(equalToConstant: 100),
+            self.btInterval.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     

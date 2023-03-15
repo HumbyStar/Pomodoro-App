@@ -10,8 +10,9 @@ import Foundation
 public struct PomodoroTimer {
     var timing: Int = Timing.defaultTime.rawValue
     var interval: Int = Timing.interval.rawValue
+    var seconds: Int = Timing.seconds.rawValue
     var pomodoroHistory: Int = 0
-    var date: Date = Date()
+    var date: Date = Date.now
     
     var initialTiming: Int {
         return timing * Timing.seconds.rawValue
