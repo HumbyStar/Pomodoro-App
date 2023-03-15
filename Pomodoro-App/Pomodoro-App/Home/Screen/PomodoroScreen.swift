@@ -7,7 +7,9 @@
 
 import UIKit
 
-class PomodoroScreen: UIView {
+class PomodoroScreen: UIView{
+    
+    private weak var delegate: StopWatchDelegate?
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -44,13 +46,26 @@ class PomodoroScreen: UIView {
         button.addTarget(self, action: #selector(btClickToStart), for: .touchUpInside)
         return button
     }()
+    
+    lazy var btInterval: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 20
+        button.backgroundColor = .red
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Chalkboard SE Bold", size: 17)
+        button.setTitle("Intervalo", for: .normal)
+        button.isHidden = true
+        button.addTarget(self, action: #selector(btClickToInterval), for: .touchUpInside)
+        return button
+    }()
          
     lazy var lbStopwatch: UILabel = {
         let label =  UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
         label.font = UIFont(name: "Chalkboard SE Bold", size: 50)
-        label.text = "00:00"
+        label.text = "25:00"
         label.textAlignment = .center
         return label
     }()
@@ -59,13 +74,21 @@ class PomodoroScreen: UIView {
         super.init(frame: frame)
         callViewcodeMethods()
     }
+    
+    public func delegate(delegate: StopWatchDelegate) {
+        self.delegate = delegate
+    }
      
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
      
     @objc func btClickToStart() {
-        print("Começar")
+        self.delegate?.letStartTimer()
+    }
+    
+    @objc func btClickToInterval() {
+        self.delegate?.letStartInterval()
     }
     
 }
