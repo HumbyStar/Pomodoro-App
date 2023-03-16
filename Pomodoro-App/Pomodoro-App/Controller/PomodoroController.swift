@@ -8,45 +8,38 @@
 import UIKit
 
 class PomodoroController {
-    private var pomodoroTimer: PomodoroTimer?
+    private var pomodoroTimer = PomodoroTimer()
     public var history: [PomodoroTimer] = []
 
     public var minutes: Int {
-        return self.pomodoroTimer?.timing ?? 0
+        return self.pomodoroTimer.timing
     }
     
     public var date: Date {
-        return self.pomodoroTimer?.date ?? Date()
+        return self.pomodoroTimer.date
     }
     
     public var seconds: Int {
-        return self.pomodoroTimer?.seconds ?? 0
+        return self.pomodoroTimer.seconds
     }
     
     public func getTiming() -> Int {
-        return self.pomodoroTimer?.initialTiming ?? 0
+        return self.pomodoroTimer.initialTiming
     }
     
     public func getTimingInterval() -> Int {
-        return self.pomodoroTimer?.initialInterval ?? 0
+        return self.pomodoroTimer.initialInterval
     }
     
     public func setTiming(new: Int) {
-        self.pomodoroTimer?.timing = new
+        self.pomodoroTimer.timing = new
     }
 
     public func setInterval(new: Int) {
-        self.pomodoroTimer?.interval = new
+        self.pomodoroTimer.interval = new
     }
     
-    public func createTimer(timing: Int? = nil, interval:Int? = nil) {
-        self.pomodoroTimer = PomodoroTimer()
-        self.savePomodoro()
-    }
-    
-    public func savePomodoro() {
-        self.pomodoroTimer = PomodoroTimer()
-        guard let pomodoroTimer = pomodoroTimer else {return}
+    public func savePomodoroHistory() {
         self.history.append(pomodoroTimer)
     }
 }

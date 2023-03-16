@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PomodoroTimer {
+public class PomodoroTimer {
     var timing: Int = Timing.defaultTime.rawValue
     var interval: Int = Timing.interval.rawValue
     var seconds: Int = Timing.seconds.rawValue

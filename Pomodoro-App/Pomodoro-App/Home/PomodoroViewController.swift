@@ -107,14 +107,18 @@ final class PomodoroViewController: UIViewController {
     private func whichPomodoro() {
         let pomodoro = self.controller.history
         var count = 0
+        
         for x in 0...self.controller.history.count - 1 {
             if pomodoro[x].timing == Timing.defaultTime.rawValue {
                 count += 1
-                if count == 4 {
-                    alert?.emiteAdjustInterval {
-                        self.controller.setTiming(new: Timing.suggestedInterval.rawValue)
-                    }
-                }
+            }
+            if count == Timing.defaultMaxRepeat.rawValue {
+                break
+            }
+        }
+        if count == Timing.defaultMaxRepeat.rawValue {
+            alert?.emiteAdjustInterval {
+                self.controller.setInterval(new: Timing.suggestedInterval.rawValue)
             }
         }
     }
@@ -123,8 +127,7 @@ final class PomodoroViewController: UIViewController {
 extension PomodoroViewController: StopWatchDelegate {
     func letStartTimer() {
         self.timer?.invalidate()
-        self.controller.createTimer()
-        print(controller.history.count)
+        self.controller.savePomodoroHistory()
         
         self.timerRemaining = controller.getTiming()
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
