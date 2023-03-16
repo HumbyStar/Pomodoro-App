@@ -10,7 +10,7 @@ import UIKit
 class PomodoroController {
     private var pomodoroTimer: PomodoroTimer?
     public var history: [PomodoroTimer] = []
-    
+
     public var minutes: Int {
         return self.pomodoroTimer?.timing ?? 0
     }
@@ -48,8 +48,4 @@ class PomodoroController {
         let pomodoro = PomodoroTimer()
         self.history.append(pomodoro)
     }
-    
-    
-    
-    
 }

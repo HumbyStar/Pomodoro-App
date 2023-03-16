@@ -19,6 +19,16 @@ class PomodoroScreen: UIView{
         return view
     }()
     
+    lazy var lbInformQuantity: UILabel = {
+        let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.textColor = .white
+        lb.textAlignment = .center
+        lb.text = ""
+        lb.font = UIFont(name: "Chalkboard SE Bold", size: 16)
+        return lb
+    }()
+    
     lazy var ivTomatto: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,6 +98,7 @@ extension PomodoroScreen: Viewcode {
         [topView,ivTomatto, lbStopwatch, btStart, btInterval].forEach{
             self.addSubview($0)
         }
+        self.topView.addSubview(lbInformQuantity)
     }
     
     func setupConstraints() {
@@ -119,6 +130,9 @@ extension PomodoroScreen: Viewcode {
             self.btInterval.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
             self.btInterval.widthAnchor.constraint(equalToConstant: 100),
             self.btInterval.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.lbInformQuantity.centerXAnchor.constraint(equalTo: self.topView.centerXAnchor),
+            self.lbInformQuantity.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor)
         ])
     }
     

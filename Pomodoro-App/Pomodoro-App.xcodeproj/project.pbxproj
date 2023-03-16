@@ -19,6 +19,7 @@
 		0C0CB37A29C16EFB007302D4 /* Enum + Timing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37929C16EFB007302D4 /* Enum + Timing.swift */; };
 		0C0CB37D29C1F3B5007302D4 /* PomodoroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37C29C1F3B5007302D4 /* PomodoroTimer.swift */; };
 		0C0CB38029C1F6BA007302D4 /* PomodoroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */; };
+		0C3AD1E229C292E900E7FE73 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0C3AD1E129C292E900E7FE73 /* alarm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		0C0CB37929C16EFB007302D4 /* Enum + Timing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum + Timing.swift"; sourceTree = "<group>"; };
 		0C0CB37C29C1F3B5007302D4 /* PomodoroTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroTimer.swift; sourceTree = "<group>"; };
 		0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroController.swift; sourceTree = "<group>"; };
+		0C3AD1E129C292E900E7FE73 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				0C0CB31029C11D98007302D4 /* SceneDelegate.swift */,
 				0C0CB31729C11D9A007302D4 /* Assets.xcassets */,
 				0C0CB31929C11D9A007302D4 /* LaunchScreen.storyboard */,
+				0C3AD1E329C292ED00E7FE73 /* Sound */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -139,6 +142,14 @@
 				0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		0C3AD1E329C292ED00E7FE73 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				0C3AD1E129C292E900E7FE73 /* alarm.mp3 */,
+			);
+			path = Sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C3AD1E229C292E900E7FE73 /* alarm.mp3 in Resources */,
 				0C0CB31B29C11D9A007302D4 /* LaunchScreen.storyboard in Resources */,
 				0C0CB31829C11D9A007302D4 /* Assets.xcassets in Resources */,
 			);
