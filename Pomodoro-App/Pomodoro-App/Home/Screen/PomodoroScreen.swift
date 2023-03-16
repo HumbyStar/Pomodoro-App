@@ -9,7 +9,8 @@ import UIKit
 
 class PomodoroScreen: UIView{
     
-    private weak var delegate: StopWatchDelegate?
+    private weak var stopWatchDelegate: StopWatchDelegate?
+    private weak var pomodoroConfigurationDelegate: PomodoroConfigurationDelegate?
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -17,6 +18,15 @@ class PomodoroScreen: UIView{
         view.layer.cornerRadius = 10
         view.backgroundColor = .red
         return view
+    }()
+    
+    lazy var btSetup: UIButton = {
+        let bt = UIButton()
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
+        bt.tintColor = .white
+        bt.addTarget(self, action: #selector(btSetConfig), for: .touchUpInside)
+        return bt
     }()
     
     lazy var lbInformQuantity: UILabel = {
@@ -79,16 +89,24 @@ class PomodoroScreen: UIView{
     }
     
     
-    public func delegate(delegate: StopWatchDelegate) {
-        self.delegate = delegate
+    public func stopWatchDelegate(delegate: StopWatchDelegate) {
+        self.stopWatchDelegate = delegate
+    }
+    
+    public func pomodoroConfigurationDelegate(delegate: PomodoroConfigurationDelegate){
+        self.pomodoroConfigurationDelegate = delegate
     }
     
     @objc func btClickToStart() {
-        self.delegate?.letStartTimer()
+        self.stopWatchDelegate?.letStartTimer()
     }
     
     @objc func btClickToInterval() {
-        self.delegate?.letStartInterval()
+        self.stopWatchDelegate?.letStartInterval()
+    }
+    
+    @objc func btSetConfig() {
+        self.pomodoroConfigurationDelegate?.setConfiguration()
     }
     
 }
@@ -99,6 +117,7 @@ extension PomodoroScreen: Viewcode {
             self.addSubview($0)
         }
         self.topView.addSubview(lbInformQuantity)
+        self.topView.addSubview(btSetup)
     }
     
     func setupConstraints() {
@@ -132,7 +151,10 @@ extension PomodoroScreen: Viewcode {
             self.btInterval.heightAnchor.constraint(equalToConstant: 50),
             
             self.lbInformQuantity.centerXAnchor.constraint(equalTo: self.topView.centerXAnchor),
-            self.lbInformQuantity.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor)
+            self.lbInformQuantity.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
+            
+            self.btSetup.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
+            self.btSetup.trailingAnchor.constraint(equalTo: self.topView.trailingAnchor, constant: -10)
         ])
     }
     

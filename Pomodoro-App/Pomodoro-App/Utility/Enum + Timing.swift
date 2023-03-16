@@ -11,6 +11,7 @@ enum Timing: Int {
     case defaultTime = 2
     case interval = 1
     case seconds = 60
+    case suggestedInterval = 10
 }
 
 

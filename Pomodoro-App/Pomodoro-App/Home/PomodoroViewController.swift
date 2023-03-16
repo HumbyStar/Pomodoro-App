@@ -14,6 +14,7 @@ final class PomodoroViewController: UIViewController {
     private var timer: Timer?
     private var timerRemaining: Int = 0
     private var player: AVAudioPlayer?
+    private var alert: Alert?
 
     override func loadView() {
         super.loadView()
@@ -23,7 +24,9 @@ final class PomodoroViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.pomodoroScreen?.delegate(delegate: self)
+        self.alert = Alert(controller: self)
+        self.pomodoroScreen?.stopWatchDelegate(delegate: self)
+        self.pomodoroScreen?.pomodoroConfigurationDelegate(delegate: self)
     }
     
     @objc func timerStarted() {
@@ -34,7 +37,8 @@ final class PomodoroViewController: UIViewController {
             let seconds = timerRemaining % (self.controller.seconds)
             
             self.pomodoroScreen?.lbInformQuantity.text = "\(controller.history.count)º Pomodoro do dia"
-            
+            self.pomodoroScreen?.btSetup.isEnabled = false
+            self.pomodoroScreen?.btSetup.alpha = 0.6
             self.pomodoroScreen?.btStart.isEnabled = false
             self.pomodoroScreen?.btStart.alpha = 0.3
             
@@ -46,13 +50,15 @@ final class PomodoroViewController: UIViewController {
         
     }
     
-    @objc func timerInterval() {
+    @objc func timerIntervalStarted() {
         timerRemaining -= 1
 
         if timerRemaining > 0 {
             let minutes = timerRemaining / (self.controller.seconds)
             let seconds = timerRemaining % (self.controller.seconds)
             
+            self.pomodoroScreen?.btSetup.isEnabled = false
+            self.pomodoroScreen?.btSetup.alpha = 0.6
             self.pomodoroScreen?.btInterval.isEnabled = false
             self.pomodoroScreen?.btInterval.alpha = 0.2
     
@@ -65,14 +71,19 @@ final class PomodoroViewController: UIViewController {
     
     private func timerFinished() {
         startAlarm()
+        self.pomodoroScreen?.btSetup.isEnabled = true
+        self.pomodoroScreen?.btSetup.alpha = 1
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
         self.pomodoroScreen?.btInterval.isEnabled = true
         self.pomodoroScreen?.btInterval.alpha = 1
+        self.whichPomodoro()
     }
     
     
     private func timerIntervalFinished(){
         startAlarm()
+        self.pomodoroScreen?.btSetup.isEnabled = true
+        self.pomodoroScreen?.btSetup.alpha = 1
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
         self.pomodoroScreen?.btStart.isEnabled = true
         self.pomodoroScreen?.btStart.alpha = 1
@@ -93,14 +104,27 @@ final class PomodoroViewController: UIViewController {
         }
     }
     
-   
-    
+    private func whichPomodoro() {
+        let pomodoro = self.controller.history
+        var count = 0
+        for x in 0...self.controller.history.count - 1 {
+            if pomodoro[x].timing == Timing.defaultTime.rawValue {
+                count += 1
+                if count == 4 {
+                    alert?.emiteAdjustInterval {
+                        self.controller.setTiming(new: Timing.suggestedInterval.rawValue)
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension PomodoroViewController: StopWatchDelegate {
     func letStartTimer() {
         self.timer?.invalidate()
         self.controller.createTimer()
+        print(controller.history.count)
         
         self.timerRemaining = controller.getTiming()
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
@@ -111,9 +135,21 @@ extension PomodoroViewController: StopWatchDelegate {
         self.timer?.invalidate()
         self.timerRemaining = controller.getTimingInterval()
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerInterval), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerIntervalStarted), userInfo: nil, repeats: true)
     }
     
+}
+
+extension PomodoroViewController: PomodoroConfigurationDelegate {
+    func setConfiguration() {
+        alert?.emiteSetupAlert(completion: {timing,interval in
+            if let timing = timing {
+                self.controller.setTiming(new: timing)
+            } else if let interval = interval {
+                self.controller.setInterval(new: interval)
+            }
+        })
+    }
 }
 
 extension PomodoroViewController: AVAudioPlayerDelegate {

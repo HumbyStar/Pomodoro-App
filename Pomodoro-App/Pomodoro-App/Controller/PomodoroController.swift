@@ -34,18 +34,19 @@ class PomodoroController {
     public func setTiming(new: Int) {
         self.pomodoroTimer?.timing = new
     }
-    
+
     public func setInterval(new: Int) {
         self.pomodoroTimer?.interval = new
     }
     
-    public func createTimer() {
+    public func createTimer(timing: Int? = nil, interval:Int? = nil) {
         self.pomodoroTimer = PomodoroTimer()
         self.savePomodoro()
     }
     
     public func savePomodoro() {
-        let pomodoro = PomodoroTimer()
-        self.history.append(pomodoro)
+        self.pomodoroTimer = PomodoroTimer()
+        guard let pomodoroTimer = pomodoroTimer else {return}
+        self.history.append(pomodoroTimer)
     }
 }

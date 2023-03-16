@@ -20,6 +20,9 @@
 		0C0CB37D29C1F3B5007302D4 /* PomodoroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37C29C1F3B5007302D4 /* PomodoroTimer.swift */; };
 		0C0CB38029C1F6BA007302D4 /* PomodoroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */; };
 		0C3AD1E229C292E900E7FE73 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0C3AD1E129C292E900E7FE73 /* alarm.mp3 */; };
+		0C3AD1F029C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1EF29C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift */; };
+		0C3AD1F329C3660900E7FE73 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1F229C3660900E7FE73 /* Alert.swift */; };
+		0C3AD1F529C36C4600E7FE73 /* Typealias + Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		0C0CB37C29C1F3B5007302D4 /* PomodoroTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroTimer.swift; sourceTree = "<group>"; };
 		0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroController.swift; sourceTree = "<group>"; };
 		0C3AD1E129C292E900E7FE73 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
+		0C3AD1EF29C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroConfigurationDelegate.swift; sourceTree = "<group>"; };
+		0C3AD1F229C3660900E7FE73 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Typealias + Closure.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +76,7 @@
 		0C0CB30D29C11D98007302D4 /* Pomodoro-App */ = {
 			isa = PBXGroup;
 			children = (
+				0C3AD1F129C3660100E7FE73 /* Alert */,
 				0C0CB37B29C1EAA2007302D4 /* Model */,
 				0C0CB37E29C1F6AB007302D4 /* Controller */,
 				0C0CB32829C1232D007302D4 /* Protocol */,
@@ -115,6 +122,7 @@
 			children = (
 				0C0CB32B29C1234F007302D4 /* Extension + Viewcode.swift */,
 				0C0CB37929C16EFB007302D4 /* Enum + Timing.swift */,
+				0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -124,6 +132,7 @@
 			children = (
 				0C0CB32929C12333007302D4 /* Viewcode.swift */,
 				0C0CB37729C16A48007302D4 /* StopWatchDelegate.swift */,
+				0C3AD1EF29C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -150,6 +159,14 @@
 				0C3AD1E129C292E900E7FE73 /* alarm.mp3 */,
 			);
 			path = Sound;
+			sourceTree = "<group>";
+		};
+		0C3AD1F129C3660100E7FE73 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				0C3AD1F229C3660900E7FE73 /* Alert.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,10 +245,13 @@
 				0C0CB32629C1225A007302D4 /* PomodoroScreen.swift in Sources */,
 				0C0CB37D29C1F3B5007302D4 /* PomodoroTimer.swift in Sources */,
 				0C0CB38029C1F6BA007302D4 /* PomodoroController.swift in Sources */,
+				0C3AD1F029C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift in Sources */,
+				0C3AD1F329C3660900E7FE73 /* Alert.swift in Sources */,
 				0C0CB32C29C1234F007302D4 /* Extension + Viewcode.swift in Sources */,
 				0C0CB31129C11D98007302D4 /* SceneDelegate.swift in Sources */,
 				0C0CB37829C16A48007302D4 /* StopWatchDelegate.swift in Sources */,
 				0C0CB37A29C16EFB007302D4 /* Enum + Timing.swift in Sources */,
+				0C3AD1F529C36C4600E7FE73 /* Typealias + Closure.swift in Sources */,
 				0C0CB32A29C12333007302D4 /* Viewcode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
