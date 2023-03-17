@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import UserNotifications
 
 final class PomodoroViewController: UIViewController {
     private var controller = PomodoroController()
@@ -15,6 +16,7 @@ final class PomodoroViewController: UIViewController {
     private var timerRemaining: Int = 0
     private var player: AVAudioPlayer?
     private var alert: Alert?
+    private let center = UNUserNotificationCenter.current()
 
     override func loadView() {
         super.loadView()
@@ -22,11 +24,64 @@ final class PomodoroViewController: UIViewController {
         self.view = pomodoroScreen
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        emiteNotificationAuthorization()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        callDelegates()
+    }
+    
+    
+    private func callDelegates() {
         self.alert = Alert(controller: self)
         self.pomodoroScreen?.stopWatchDelegate(delegate: self)
         self.pomodoroScreen?.pomodoroConfigurationDelegate(delegate: self)
+        center.delegate = self
+    }
+    
+    private func emiteNotificationAuthorization() {
+        
+        center.requestAuthorization(options: [.sound, .alert]) { success, error in
+            if let error = error {
+                print("Error to get Authorization \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func buildNotification() {
+        
+        if self.pomodoroScreen?.btStart.isEnabled == true {
+            let content = UNMutableNotificationContent()
+            content.title = "Pomodoro finalizado"
+            content.body = "Hora do intervalo, descanse um pouco"
+            content.sound = .default //PERSONALIZAR SOM DEPOIS
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(self.controller.getTiming()), repeats: false)
+            let request = UNNotificationRequest(identifier: "Pomodoro", content: content, trigger: trigger)
+            
+            center.add(request) { error in
+                if let error = error {
+                    print("Error to build a notification \(error.localizedDescription)")
+                }
+            }
+        } else {
+            let content = UNMutableNotificationContent()
+            content.title = "Intervalo finalizado"
+            content.body = "Vamos começar um novo Pomodoro?"
+            content.sound = .default 
+
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(self.controller.getTimingInterval()), repeats: false)
+            let request = UNNotificationRequest(identifier: "Interval", content: content, trigger: trigger)
+            
+            center.add(request) { error in
+                if let error = error {
+                    print("Error to build a notification \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     @objc func timerStarted() {
@@ -44,7 +99,7 @@ final class PomodoroViewController: UIViewController {
             
             self.pomodoroScreen?.lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
         } else {
-            self.timer?.invalidate()
+            startAlarm()
             timerFinished()
         }
         
@@ -64,13 +119,13 @@ final class PomodoroViewController: UIViewController {
     
             self.pomodoroScreen?.lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
         } else {
-            self.timer?.invalidate()
+            startAlarm()
             timerIntervalFinished()
         }
     }
     
     private func timerFinished() {
-        startAlarm()
+        self.timer?.invalidate()
         self.pomodoroScreen?.btSetup.isEnabled = true
         self.pomodoroScreen?.btSetup.alpha = 1
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
@@ -81,7 +136,7 @@ final class PomodoroViewController: UIViewController {
     
     
     private func timerIntervalFinished(){
-        startAlarm()
+        self.timer?.invalidate()
         self.pomodoroScreen?.btSetup.isEnabled = true
         self.pomodoroScreen?.btSetup.alpha = 1
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
@@ -126,8 +181,8 @@ final class PomodoroViewController: UIViewController {
 
 extension PomodoroViewController: StopWatchDelegate {
     func letStartTimer() {
-        self.timer?.invalidate()
         self.controller.savePomodoroHistory()
+        self.buildNotification()
         
         self.timerRemaining = controller.getTiming()
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
@@ -135,8 +190,8 @@ extension PomodoroViewController: StopWatchDelegate {
     }
     
     func letStartInterval() {
-        self.timer?.invalidate()
         self.timerRemaining = controller.getTimingInterval()
+        self.buildNotification()
         
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerIntervalStarted), userInfo: nil, repeats: true)
     }
@@ -158,6 +213,19 @@ extension PomodoroViewController: PomodoroConfigurationDelegate {
 extension PomodoroViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         player.stop()
+    }
+}
+
+extension PomodoroViewController: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+        let id = response.notification.request.identifier
+        if id == "Pomodoro" {
+            self.timerFinished()
+        } else {
+            self.timerIntervalFinished()
+        }
     }
 }
 
