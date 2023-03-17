@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class PomodoroTimer {
+public class PomodoroTimer: Codable {
     var timing: Int = Timing.defaultTime.rawValue
     var interval: Int = Timing.interval.rawValue
     var seconds: Int = Timing.seconds.rawValue

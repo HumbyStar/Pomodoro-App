@@ -11,6 +11,7 @@ class PomodoroScreen: UIView{
     
     private weak var stopWatchDelegate: StopWatchDelegate?
     private weak var pomodoroConfigurationDelegate: PomodoroConfigurationDelegate?
+    private weak var checkHistoryDelegate: CheckHistoryDelegate?
     
     lazy var topView: UIView = {
         let view = UIView()
@@ -26,6 +27,15 @@ class PomodoroScreen: UIView{
         bt.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
         bt.tintColor = .white
         bt.addTarget(self, action: #selector(btSetConfig), for: .touchUpInside)
+        return bt
+    }()
+    
+    lazy var btHistory: UIButton = {
+        let bt = UIButton()
+        bt.translatesAutoresizingMaskIntoConstraints = false
+        bt.setImage(UIImage(systemName: "tray.full.fill"), for: .normal)
+        bt.tintColor = .white
+        bt.addTarget(self, action: #selector(btTapHistory), for: .touchUpInside)
         return bt
     }()
     
@@ -97,6 +107,10 @@ class PomodoroScreen: UIView{
         self.pomodoroConfigurationDelegate = delegate
     }
     
+    public func checkHistoryDelegate(delegate: CheckHistoryDelegate) {
+        self.checkHistoryDelegate = delegate
+    }
+    
     @objc func btClickToStart() {
         self.stopWatchDelegate?.letStartTimer()
     }
@@ -109,6 +123,10 @@ class PomodoroScreen: UIView{
         self.pomodoroConfigurationDelegate?.setConfiguration()
     }
     
+    @objc func btTapHistory() {
+        self.checkHistoryDelegate?.openHistory()
+    }
+    
 }
 
 extension PomodoroScreen: Viewcode {
@@ -118,12 +136,12 @@ extension PomodoroScreen: Viewcode {
         }
         self.topView.addSubview(lbInformQuantity)
         self.topView.addSubview(btSetup)
+        self.topView.addSubview(btHistory)
     }
     
     func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            
             self.topView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
             self.topView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.topView.widthAnchor.constraint(equalToConstant: 300),
@@ -154,7 +172,10 @@ extension PomodoroScreen: Viewcode {
             self.lbInformQuantity.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
             
             self.btSetup.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
-            self.btSetup.trailingAnchor.constraint(equalTo: self.topView.trailingAnchor, constant: -10)
+            self.btSetup.trailingAnchor.constraint(equalTo: self.topView.trailingAnchor, constant: -10),
+            
+            self.btHistory.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
+            self.btHistory.leadingAnchor.constraint(equalTo: self.topView.leadingAnchor, constant: 10)
         ])
     }
     

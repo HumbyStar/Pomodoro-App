@@ -27,6 +27,7 @@ final class PomodoroViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         emiteNotificationAuthorization()
+        self.controller.loadHistory()
     }
     
     override func viewDidLoad() {
@@ -39,6 +40,7 @@ final class PomodoroViewController: UIViewController {
         self.alert = Alert(controller: self)
         self.pomodoroScreen?.stopWatchDelegate(delegate: self)
         self.pomodoroScreen?.pomodoroConfigurationDelegate(delegate: self)
+        self.pomodoroScreen?.checkHistoryDelegate(delegate: self)
         center.delegate = self
     }
     
@@ -57,7 +59,7 @@ final class PomodoroViewController: UIViewController {
             let content = UNMutableNotificationContent()
             content.title = "Pomodoro finalizado"
             content.body = "Hora do intervalo, descanse um pouco"
-            content.sound = .default //PERSONALIZAR SOM DEPOIS
+            content.sound = .default
             
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(self.controller.getTiming()), repeats: false)
             let request = UNNotificationRequest(identifier: "Pomodoro", content: content, trigger: trigger)
@@ -181,12 +183,11 @@ final class PomodoroViewController: UIViewController {
 
 extension PomodoroViewController: StopWatchDelegate {
     func letStartTimer() {
-        self.controller.savePomodoroHistory()
+        self.controller.addPomodoroInHistory()
         self.buildNotification()
         
         self.timerRemaining = controller.getTiming()
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
-    
     }
     
     func letStartInterval() {
@@ -210,6 +211,12 @@ extension PomodoroViewController: PomodoroConfigurationDelegate {
     }
 }
 
+extension PomodoroViewController: CheckHistoryDelegate {
+    func openHistory() {
+        print("tapped")
+    }
+}
+
 extension PomodoroViewController: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         player.stop()
@@ -217,6 +224,10 @@ extension PomodoroViewController: AVAudioPlayerDelegate {
 }
 
 extension PomodoroViewController: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner])
+    }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     
