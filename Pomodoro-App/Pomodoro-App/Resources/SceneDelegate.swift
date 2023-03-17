@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-       
+        NotificationCenter.default.post(name: NSNotification.Name(Notification.refresh.rawValue), object: nil)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -42,12 +42,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        let backgroundTime = Date()
+        UserDefaults.standard.set(backgroundTime, forKey: Notification.backgroundTime.rawValue)
     }
 
 

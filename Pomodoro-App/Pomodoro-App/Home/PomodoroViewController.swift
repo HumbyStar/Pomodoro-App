@@ -33,8 +33,9 @@ final class PomodoroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         callDelegates()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTimerWhenAppReturnsToForeground), name: NSNotification.Name(Notification.refresh.rawValue), object: nil)
+
     }
-    
     
     private func callDelegates() {
         self.alert = Alert(controller: self)
@@ -86,7 +87,13 @@ final class PomodoroViewController: UIViewController {
         }
     }
     
-    @objc func timerStarted() {
+    @objc private func updateTimerWhenAppReturnsToForeground() {
+        guard let backgroundTime = UserDefaults.standard.object(forKey: Notification.backgroundTime.rawValue) as? Date else {return}
+        let timePassedInBackground = Date().timeIntervalSince(backgroundTime)
+        self.timerRemaining -= Int(timePassedInBackground)
+    }
+    
+    @objc private func timerStarted() {
         timerRemaining -= 1
         
         if timerRemaining > 0 {
@@ -98,6 +105,8 @@ final class PomodoroViewController: UIViewController {
             self.pomodoroScreen?.btSetup.alpha = 0.6
             self.pomodoroScreen?.btStart.isEnabled = false
             self.pomodoroScreen?.btStart.alpha = 0.3
+            self.pomodoroScreen?.btHistory.isEnabled = false
+            self.pomodoroScreen?.btHistory.alpha = 0.6
             
             self.pomodoroScreen?.lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
         } else {
@@ -107,7 +116,7 @@ final class PomodoroViewController: UIViewController {
         
     }
     
-    @objc func timerIntervalStarted() {
+    @objc private func timerIntervalStarted() {
         timerRemaining -= 1
 
         if timerRemaining > 0 {
@@ -118,6 +127,8 @@ final class PomodoroViewController: UIViewController {
             self.pomodoroScreen?.btSetup.alpha = 0.6
             self.pomodoroScreen?.btInterval.isEnabled = false
             self.pomodoroScreen?.btInterval.alpha = 0.2
+            self.pomodoroScreen?.btHistory.isEnabled = false
+            self.pomodoroScreen?.btHistory.alpha = 0.6
     
             self.pomodoroScreen?.lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
         } else {
@@ -133,6 +144,8 @@ final class PomodoroViewController: UIViewController {
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
         self.pomodoroScreen?.btInterval.isEnabled = true
         self.pomodoroScreen?.btInterval.alpha = 1
+        self.pomodoroScreen?.btHistory.isEnabled = true
+        self.pomodoroScreen?.btHistory.alpha = 1
         self.whichPomodoro()
     }
     
@@ -144,6 +157,8 @@ final class PomodoroViewController: UIViewController {
         self.pomodoroScreen?.lbStopwatch.text = "00:00"
         self.pomodoroScreen?.btStart.isEnabled = true
         self.pomodoroScreen?.btStart.alpha = 1
+        self.pomodoroScreen?.btHistory.isEnabled = true
+        self.pomodoroScreen?.btHistory.alpha = 1
     }
     
     private func startAlarm() {
