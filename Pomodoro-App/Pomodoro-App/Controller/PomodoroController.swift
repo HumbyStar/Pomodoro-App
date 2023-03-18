@@ -11,67 +11,83 @@ final class PomodoroController {
     
     //MARK: - Variables and Constant
     private var pomodoroTimer = PomodoroTimer()
-    public var history: [PomodoroTimer] = []
-    private static let udIdentifier = "PomodoroData"
-    public var ud = UserDefaults.standard
+    private var history: [PomodoroTimer] = []
+    static let identifier = "PomodoroData"
+    public var userDefaults = UserDefaults.standard
 
     //MARK: - Computed properties
     public var minutes: Int {
-        return self.pomodoroTimer.timing
+        return pomodoroTimer.timing
+    }
+    
+    public var getSizeHistory: Int {
+        return history.count
     }
     
     public var date: Date {
-        return self.pomodoroTimer.date
+        return pomodoroTimer.date
     }
     
     public var seconds: Int {
-        return self.pomodoroTimer.seconds
+        return pomodoroTimer.seconds
     }
     
-    //MARK: - Methods 
+    //MARK: - Publics Methods
+    public func getContentHistory(index: Int) -> PomodoroTimer{
+        return history[index]
+    }
+    
     public func getTiming() -> Int {
-        return self.pomodoroTimer.initialTiming
+        return pomodoroTimer.initialTiming
     }
     
     public func getTimingInterval() -> Int {
-        return self.pomodoroTimer.initialInterval
+        return pomodoroTimer.initialInterval
     }
     
     public func setTiming(new: Int) {
-        self.pomodoroTimer.timing = new
+        pomodoroTimer.timing = new
     }
 
     public func setInterval(new: Int) {
-        self.pomodoroTimer.interval = new
+        pomodoroTimer.interval = new
     }
     
     public func addPomodoroInHistory() {
-        self.history.append(pomodoroTimer)
+        history.append(pomodoroTimer)
         saveHistory()
-    }
-    
-    private func clearHistory() {
-        history = []
-        ud.removeObject(forKey: Self.udIdentifier)
-        saveHistory()
-    }
-    
-    private func saveHistory() {
-        let json = try? JSONEncoder().encode(history)
-        ud.set(json, forKey: Self.udIdentifier)
     }
     
     public func loadHistory() {
-        if let dataHistory = ud.data(forKey: Self.udIdentifier) {
+        if let dataHistory = userDefaults.data(forKey: Self.identifier) {
             if let loadedHistory = try? JSONDecoder().decode([PomodoroTimer].self, from: dataHistory) {
-                if let lastPomodoro = loadedHistory.last, !Calendar.current.isDateInToday(lastPomodoro.date) {
-                    clearHistory()
-                } else {
-                    self.history = loadedHistory
-                }
+                validDate(loadedHistory: loadedHistory)
             }
         }
     }
     
+    //MARK: - Privates Methods
+    private func clearHistory() {
+        history = []
+        userDefaults.removeObject(forKey: Self.identifier)
+        saveHistory()
+    }
     
+    private func saveHistory() {
+        do {
+            let json = try JSONEncoder().encode(history)
+            userDefaults.set(json, forKey: Self.identifier)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func validDate(loadedHistory: [PomodoroTimer]) {
+        if let lastPomodoro = loadedHistory.last, !Calendar.current.isDateInToday(lastPomodoro.date) {
+            clearHistory()
+        } else {
+            history = loadedHistory
+        }
+    }
 }

@@ -21,12 +21,13 @@
 		0C0CB38029C1F6BA007302D4 /* PomodoroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */; };
 		0C3AD1E229C292E900E7FE73 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0C3AD1E129C292E900E7FE73 /* alarm.mp3 */; };
 		0C3AD1F029C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1EF29C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift */; };
-		0C3AD1F329C3660900E7FE73 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1F229C3660900E7FE73 /* Alert.swift */; };
+		0C3AD1F329C3660900E7FE73 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1F229C3660900E7FE73 /* AlertService.swift */; };
 		0C3AD1F529C36C4600E7FE73 /* Typealias + Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */; };
 		0C3AD21B29C4B9E900E7FE73 /* CheckHistoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD21A29C4B9E900E7FE73 /* CheckHistoryDelegate.swift */; };
 		0C3AD21E29C4BBA900E7FE73 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD21D29C4BBA900E7FE73 /* HistoryViewController.swift */; };
 		0C3AD22129C4BBD000E7FE73 /* HistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD22029C4BBD000E7FE73 /* HistoryScreen.swift */; };
 		0C3AD22329C4F88600E7FE73 /* Enum + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD22229C4F88600E7FE73 /* Enum + Notification.swift */; };
+		0C3AD22529C61AF700E7FE73 /* Extension + UIDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3AD22429C61AF700E7FE73 /* Extension + UIDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,12 +47,13 @@
 		0C0CB37F29C1F6BA007302D4 /* PomodoroController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroController.swift; sourceTree = "<group>"; };
 		0C3AD1E129C292E900E7FE73 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 		0C3AD1EF29C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroConfigurationDelegate.swift; sourceTree = "<group>"; };
-		0C3AD1F229C3660900E7FE73 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		0C3AD1F229C3660900E7FE73 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Typealias + Closure.swift"; sourceTree = "<group>"; };
 		0C3AD21A29C4B9E900E7FE73 /* CheckHistoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckHistoryDelegate.swift; sourceTree = "<group>"; };
 		0C3AD21D29C4BBA900E7FE73 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		0C3AD22029C4BBD000E7FE73 /* HistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScreen.swift; sourceTree = "<group>"; };
 		0C3AD22229C4F88600E7FE73 /* Enum + Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum + Notification.swift"; sourceTree = "<group>"; };
+		0C3AD22429C61AF700E7FE73 /* Extension + UIDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIDate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				0C0CB37929C16EFB007302D4 /* Enum + Timing.swift */,
 				0C3AD22229C4F88600E7FE73 /* Enum + Notification.swift */,
 				0C3AD1F429C36C4600E7FE73 /* Typealias + Closure.swift */,
+				0C3AD22429C61AF700E7FE73 /* Extension + UIDate.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -175,7 +178,7 @@
 		0C3AD1F129C3660100E7FE73 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				0C3AD1F229C3660900E7FE73 /* Alert.swift */,
+				0C3AD1F229C3660900E7FE73 /* AlertService.swift */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				0C3AD22129C4BBD000E7FE73 /* HistoryScreen.swift in Sources */,
 				0C3AD21B29C4B9E900E7FE73 /* CheckHistoryDelegate.swift in Sources */,
 				0C0CB31329C11D98007302D4 /* PomodoroViewController.swift in Sources */,
+				0C3AD22529C61AF700E7FE73 /* Extension + UIDate.swift in Sources */,
 				0C0CB30F29C11D98007302D4 /* AppDelegate.swift in Sources */,
 				0C3AD21E29C4BBA900E7FE73 /* HistoryViewController.swift in Sources */,
 				0C0CB32629C1225A007302D4 /* PomodoroScreen.swift in Sources */,
@@ -278,7 +282,7 @@
 				0C0CB37D29C1F3B5007302D4 /* PomodoroTimer.swift in Sources */,
 				0C0CB38029C1F6BA007302D4 /* PomodoroController.swift in Sources */,
 				0C3AD1F029C360EC00E7FE73 /* PomodoroConfigurationDelegate.swift in Sources */,
-				0C3AD1F329C3660900E7FE73 /* Alert.swift in Sources */,
+				0C3AD1F329C3660900E7FE73 /* AlertService.swift in Sources */,
 				0C0CB32C29C1234F007302D4 /* Extension + Viewcode.swift in Sources */,
 				0C0CB31129C11D98007302D4 /* SceneDelegate.swift in Sources */,
 				0C0CB37829C16A48007302D4 /* StopWatchDelegate.swift in Sources */,

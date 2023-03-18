@@ -1,5 +1,5 @@
 //
-//  PomodoroScreen.swift
+//  swift
 //  Pomodoro-App
 //
 //  Created by Humberto Rodrigues on 14/03/23.
@@ -77,6 +77,7 @@ class PomodoroScreen: UIView{
         button.alpha = 0.2
         button.titleLabel?.font = UIFont(name: "Chalkboard SE Bold", size: 17)
         button.setTitle("Intervalo", for: .normal)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(btClickToInterval), for: .touchUpInside)
         return button
     }()
@@ -102,32 +103,75 @@ class PomodoroScreen: UIView{
     }
     
     //MARK: - Methods
+    public func setupButtonsToTimeStarted(minutes:Int, seconds:Int){
+        btSetup.isEnabled = false
+        btSetup.alpha = 0.6
+        btStart.isEnabled = false
+        btStart.alpha = 0.3
+        btInterval.isEnabled = false
+        btInterval.alpha = 0.2
+        btHistory.isEnabled = false
+        btHistory.alpha = 0.6
+        lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    public func setupButtonsToTimeIntervalStarted(minutes:Int, seconds:Int){
+        btSetup.isEnabled = false
+        btSetup.alpha = 0.6
+        btInterval.isEnabled = false
+        btInterval.alpha = 0.2
+        btHistory.isEnabled = false
+        btHistory.alpha = 0.6
+        lbStopwatch.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    public func setupButtonsToTimerfinished(){
+        btSetup.isEnabled = true
+        btSetup.alpha = 1
+        lbStopwatch.text = "00:00"
+        btInterval.isEnabled = true
+        btInterval.alpha = 1
+        btHistory.isEnabled = true
+        btHistory.alpha = 1
+    }
+    
+    public func setupButtonsToTimerIntervalFinished(){
+        btSetup.isEnabled = true
+        btSetup.alpha = 1
+        lbStopwatch.text = "00:00"
+        btStart.isEnabled = true
+        btStart.alpha = 1
+        btHistory.isEnabled = true
+        btHistory.alpha = 1
+    }
+    
+    //MARK: - Methods Delegates
     public func stopWatchDelegate(delegate: StopWatchDelegate) {
-        self.stopWatchDelegate = delegate
+        stopWatchDelegate = delegate
     }
     
     public func pomodoroConfigurationDelegate(delegate: PomodoroConfigurationDelegate){
-        self.pomodoroConfigurationDelegate = delegate
+        pomodoroConfigurationDelegate = delegate
     }
     
     public func checkHistoryDelegate(delegate: CheckHistoryDelegate) {
-        self.checkHistoryDelegate = delegate
+        checkHistoryDelegate = delegate
     }
     
     @objc func btClickToStart() {
-        self.stopWatchDelegate?.letStartTimer()
+        stopWatchDelegate?.letStartTimer()
     }
     
     @objc func btClickToInterval() {
-        self.stopWatchDelegate?.letStartInterval()
+        stopWatchDelegate?.letStartInterval()
     }
     
     @objc func btSetConfig() {
-        self.pomodoroConfigurationDelegate?.setConfiguration()
+        pomodoroConfigurationDelegate?.setConfiguration()
     }
     
     @objc func btTapHistory() {
-        self.checkHistoryDelegate?.openHistory()
+        checkHistoryDelegate?.openHistory()
     }
     
 }
@@ -136,55 +180,55 @@ class PomodoroScreen: UIView{
 extension PomodoroScreen: Viewcode {
     func addSubview() {
         [topView,ivTomatto, lbStopwatch, btStart, btInterval].forEach{
-            self.addSubview($0)
+            addSubview($0)
         }
-        self.topView.addSubview(lbInformQuantity)
-        self.topView.addSubview(btSetup)
-        self.topView.addSubview(btHistory)
+        topView.addSubview(lbInformQuantity)
+        topView.addSubview(btSetup)
+        topView.addSubview(btHistory)
     }
     
     func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            self.topView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            self.topView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.topView.widthAnchor.constraint(equalToConstant: 300),
-            self.topView.heightAnchor.constraint(equalToConstant: 40),
+            topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            topView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            topView.widthAnchor.constraint(equalToConstant: 300),
+            topView.heightAnchor.constraint(equalToConstant: 40),
             
             
-            self.ivTomatto.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -45),
-            self.ivTomatto.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.ivTomatto.widthAnchor.constraint(equalToConstant: 250),
-            self.ivTomatto.heightAnchor.constraint(equalToConstant: 250),
+            ivTomatto.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -45),
+            ivTomatto.centerXAnchor.constraint(equalTo: centerXAnchor),
+            ivTomatto.widthAnchor.constraint(equalToConstant: 250),
+            ivTomatto.heightAnchor.constraint(equalToConstant: 250),
             
-            self.lbStopwatch.topAnchor.constraint(equalTo: self.ivTomatto.bottomAnchor,constant: 50),
-            self.lbStopwatch.widthAnchor.constraint(equalTo: self.ivTomatto.widthAnchor),
-            self.lbStopwatch.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
-            self.lbStopwatch.heightAnchor.constraint(equalToConstant: 50),
+            lbStopwatch.topAnchor.constraint(equalTo: ivTomatto.bottomAnchor,constant: 50),
+            lbStopwatch.widthAnchor.constraint(equalTo: ivTomatto.widthAnchor),
+            lbStopwatch.centerXAnchor.constraint(equalTo: ivTomatto.centerXAnchor),
+            lbStopwatch.heightAnchor.constraint(equalToConstant: 50),
             
-            self.btStart.topAnchor.constraint(equalTo: self.lbStopwatch.bottomAnchor, constant: 40),
-            self.btStart.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
-            self.btStart.widthAnchor.constraint(equalToConstant: 100),
-            self.btStart.heightAnchor.constraint(equalToConstant: 50),
+            btStart.topAnchor.constraint(equalTo: lbStopwatch.bottomAnchor, constant: 40),
+            btStart.centerXAnchor.constraint(equalTo: ivTomatto.centerXAnchor),
+            btStart.widthAnchor.constraint(equalToConstant: 100),
+            btStart.heightAnchor.constraint(equalToConstant: 50),
             
-            self.btInterval.topAnchor.constraint(equalTo: self.btStart.bottomAnchor, constant: 10),
-            self.btInterval.centerXAnchor.constraint(equalTo: self.ivTomatto.centerXAnchor),
-            self.btInterval.widthAnchor.constraint(equalToConstant: 100),
-            self.btInterval.heightAnchor.constraint(equalToConstant: 50),
+            btInterval.topAnchor.constraint(equalTo: btStart.bottomAnchor, constant: 10),
+            btInterval.centerXAnchor.constraint(equalTo: ivTomatto.centerXAnchor),
+            btInterval.widthAnchor.constraint(equalToConstant: 100),
+            btInterval.heightAnchor.constraint(equalToConstant: 50),
             
-            self.lbInformQuantity.centerXAnchor.constraint(equalTo: self.topView.centerXAnchor),
-            self.lbInformQuantity.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
+            lbInformQuantity.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+            lbInformQuantity.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
             
-            self.btSetup.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
-            self.btSetup.trailingAnchor.constraint(equalTo: self.topView.trailingAnchor, constant: -10),
+            btSetup.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+            btSetup.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -10),
             
-            self.btHistory.centerYAnchor.constraint(equalTo: self.topView.centerYAnchor),
-            self.btHistory.leadingAnchor.constraint(equalTo: self.topView.leadingAnchor, constant: 10)
+            btHistory.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+            btHistory.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: 10)
         ])
     }
     
     func extrasFeatures() {
-        self.backgroundColor = .white
+        backgroundColor = .white
     }
 }
 

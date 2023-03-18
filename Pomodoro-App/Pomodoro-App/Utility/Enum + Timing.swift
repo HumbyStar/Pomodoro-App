@@ -9,8 +9,8 @@ import Foundation
 //MARK: - Defaults values
 
 enum Timing: Int {
-    case defaultTime = 25
-    case interval = 5
+    case defaultTime = 2
+    case interval = 1
     case seconds = 60
     case suggestedInterval = 10
     case defaultMaxRepeat = 4

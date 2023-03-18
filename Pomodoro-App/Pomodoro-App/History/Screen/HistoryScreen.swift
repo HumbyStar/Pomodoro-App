@@ -8,10 +8,7 @@
 import UIKit
 
 class HistoryScreen: UIView {
-    
-    //MARK: - Variable Static
-    static let cellIdenfitier = "HistoryScreen"
-    
+
     //MARK: - Lazy Variables
     lazy var lbHistory: UILabel = {
         let lb = UILabel()
@@ -28,7 +25,7 @@ class HistoryScreen: UIView {
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: HistoryScreen.cellIdenfitier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         return tableView
     }()
     
@@ -43,31 +40,31 @@ class HistoryScreen: UIView {
     }
     
     //MARK: - Method
-    public func getTableViewDelegate(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
-        self.tableView.delegate = delegate
-        self.tableView.dataSource = dataSource
+    public func setTableViewDelegate(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
+        tableView.delegate = delegate
+        tableView.dataSource = dataSource
     }
 }
 
     //MARK: - Extension
 extension HistoryScreen: Viewcode {
     func addSubview() {
-        self.addSubview(lbHistory)
-        self.addSubview(tableView)
+        addSubview(lbHistory)
+        addSubview(tableView)
     }
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            self.lbHistory.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,constant: 20),
-            self.lbHistory.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            self.lbHistory.widthAnchor.constraint(equalToConstant: 200),
+            lbHistory.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,constant: 20),
+            lbHistory.centerXAnchor.constraint(equalTo: centerXAnchor),
+            lbHistory.widthAnchor.constraint(equalToConstant: 200),
             
-            self.tableView.topAnchor.constraint(equalTo: self.lbHistory.bottomAnchor,constant: 4),
-            self.tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: lbHistory.bottomAnchor,constant: 4),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     func extrasFeatures() {
-        self.backgroundColor = .white
+        backgroundColor = .white
     }
 }
