@@ -192,10 +192,9 @@ extension PomodoroViewController: StopWatchDelegate {
 
 extension PomodoroViewController: PomodoroConfigurationDelegate {
     func setConfiguration() {
-        alert?.alertChangeTimer(completion: {timing,interval in
-            if let timing = timing {
+        alert?.alertChangeTimer(completion: {timing, interval in
+            if let timing = timing, let interval = interval {
                 self.controller.setTiming(new: timing)
-            } else if let interval = interval {
                 self.controller.setInterval(new: interval)
             }
         })
