@@ -7,6 +7,8 @@
 
 import Foundation
 
+//MARK: - Renaming closure
+
 typealias newTimeAndInterval = (Int?,Int?) -> Void
 typealias newInterval = () -> Void
 

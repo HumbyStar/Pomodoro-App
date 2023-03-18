@@ -7,12 +7,15 @@
 
 import UIKit
 
-class PomodoroController {
+final class PomodoroController {
+    
+    //MARK: - Variables and Constant
     private var pomodoroTimer = PomodoroTimer()
     public var history: [PomodoroTimer] = []
-    static let udIdentifier = "PomodoroData"
+    private static let udIdentifier = "PomodoroData"
     public var ud = UserDefaults.standard
 
+    //MARK: - Computed properties
     public var minutes: Int {
         return self.pomodoroTimer.timing
     }
@@ -25,6 +28,7 @@ class PomodoroController {
         return self.pomodoroTimer.seconds
     }
     
+    //MARK: - Methods 
     public func getTiming() -> Int {
         return self.pomodoroTimer.initialTiming
     }
@@ -48,6 +52,7 @@ class PomodoroController {
     
     private func clearHistory() {
         history = []
+        ud.removeObject(forKey: Self.udIdentifier)
         saveHistory()
     }
     

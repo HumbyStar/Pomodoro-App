@@ -9,10 +9,12 @@ import UIKit
 
 class PomodoroScreen: UIView{
     
+    //MARK: - Private Variables
     private weak var stopWatchDelegate: StopWatchDelegate?
     private weak var pomodoroConfigurationDelegate: PomodoroConfigurationDelegate?
     private weak var checkHistoryDelegate: CheckHistoryDelegate?
     
+    //MARK: - Lazy Variables
     lazy var topView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +91,7 @@ class PomodoroScreen: UIView{
         return label
     }()
      
+    //MARK: - Init and Required Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         callViewcodeMethods()
@@ -98,7 +101,7 @@ class PomodoroScreen: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    //MARK: - Methods
     public func stopWatchDelegate(delegate: StopWatchDelegate) {
         self.stopWatchDelegate = delegate
     }
@@ -129,6 +132,7 @@ class PomodoroScreen: UIView{
     
 }
 
+    //MARK: - Extensions
 extension PomodoroScreen: Viewcode {
     func addSubview() {
         [topView,ivTomatto, lbStopwatch, btStart, btInterval].forEach{

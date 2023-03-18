@@ -7,14 +7,14 @@
 
 import UIKit
 
-class Alert {
+final class Alert {
     var controller: UIViewController
     
     init(controller: UIViewController) {
         self.controller = controller
     }
     
-    func emiteSetupAlert(completion: @escaping newTimeAndInterval) {
+     func emiteSetupAlert(completion: @escaping newTimeAndInterval) {
         let alertController = UIAlertController(title: "Ajustar tempo", message: "Digite o tempo para ajustar o pomodoro", preferredStyle: .alert)
         
         alertController.addTextField { (textfield) in

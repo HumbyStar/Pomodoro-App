@@ -10,6 +10,8 @@ import AVFoundation
 import UserNotifications
 
 final class PomodoroViewController: UIViewController {
+    
+    //MARK: - Private Variables and constants
     private var controller = PomodoroController()
     private var pomodoroScreen: PomodoroScreen?
     private var timer: Timer?
@@ -17,13 +19,15 @@ final class PomodoroViewController: UIViewController {
     private var player: AVAudioPlayer?
     private var alert: Alert?
     private let center = UNUserNotificationCenter.current()
-
+    
+    //MARK: - Inits
     override func loadView() {
         super.loadView()
         self.pomodoroScreen = PomodoroScreen()
         self.view = pomodoroScreen
     }
     
+    //MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         emiteNotificationAuthorization()
@@ -37,6 +41,7 @@ final class PomodoroViewController: UIViewController {
 
     }
     
+    //MARK: - Methods
     private func callDelegates() {
         self.alert = Alert(controller: self)
         self.pomodoroScreen?.stopWatchDelegate(delegate: self)
@@ -105,6 +110,8 @@ final class PomodoroViewController: UIViewController {
             self.pomodoroScreen?.btSetup.alpha = 0.6
             self.pomodoroScreen?.btStart.isEnabled = false
             self.pomodoroScreen?.btStart.alpha = 0.3
+            self.pomodoroScreen?.btInterval.isEnabled = false
+            self.pomodoroScreen?.btInterval.alpha = 0.2
             self.pomodoroScreen?.btHistory.isEnabled = false
             self.pomodoroScreen?.btHistory.alpha = 0.6
             
@@ -168,7 +175,7 @@ final class PomodoroViewController: UIViewController {
             try AVAudioSession.sharedInstance().setActive(true)
             self.player = try AVAudioPlayer(contentsOf: url,fileTypeHint: AVFileType.mp3.rawValue)
             guard let player = self.player else {return}
-            
+            player.volume = 0.1
             player.delegate = self
             player.play()
         } catch {
@@ -196,6 +203,7 @@ final class PomodoroViewController: UIViewController {
     }
 }
 
+    //MARK: - Extensions
 extension PomodoroViewController: StopWatchDelegate {
     func letStartTimer() {
         self.controller.addPomodoroInHistory()
@@ -228,7 +236,9 @@ extension PomodoroViewController: PomodoroConfigurationDelegate {
 
 extension PomodoroViewController: CheckHistoryDelegate {
     func openHistory() {
-        print("tapped")
+        let historyViewController = HistoryViewController()
+        historyViewController.pomodoros = controller.history
+        self.present(historyViewController, animated: true)
     }
 }
 
@@ -246,11 +256,13 @@ extension PomodoroViewController: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     
-        let id = response.notification.request.identifier
-        if id == "Pomodoro" {
-            self.timerFinished()
-        } else {
-            self.timerIntervalFinished()
+        if UIApplication.shared.applicationState == .background {
+            let id = response.notification.request.identifier
+            if id == "Pomodoro" {
+                self.timerFinished()
+            } else {
+                self.timerIntervalFinished()
+            }
         }
     }
 }
